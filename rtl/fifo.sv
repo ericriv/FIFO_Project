@@ -17,13 +17,13 @@ module fifo #(
 	logic	[DATA_WIDTH-1:0]	mem		[0:DEPTH-1];
 	
 	logic	[ADDR_BITS-1:0]		rd_ptr;
-	logic	[ADDR_BITS-1:0]		wrt_ptr;
+	logic	[ADDR_BITS-1:0]		wr_ptr;
 	logic 	[ADDR_BITS:0]		cnt;
 
 	always @(posedge clk or negedge rst_) begin
 		if(!rst_) begin
 			rd_ptr <= 0;
-			wrt_ptr <= 0;
+			wr_ptr <= 0;
 			cnt <= 0;
 			full <= 0;
 			empty <= 1;
@@ -34,8 +34,8 @@ module fifo #(
 			
 				2'b10: begin //write
 					if(!full) begin
-						mem[wrt_ptr] <= din;
-						wrt_ptr <= (wrt_ptr == DEPTH-1) ? 0 : wrt_ptr + 1; //reset wrt_ptr if at end of fifo
+						mem[wr_ptr] <= din;
+						wr_ptr <= (wr_ptr == DEPTH-1) ? 0 : wr_ptr + 1; //reset wr_ptr if at end of fifo
 						full <= (cnt == DEPTH-1);
 						cnt <= cnt + 1;
 					end //if !full
@@ -52,8 +52,8 @@ module fifo #(
 			
 				2'b11 begin //read and write
 					if(!full) begin //write
-						mem[wrt_ptr] <= din;
-						wrt_ptr <= (wrt_ptr == DEPTH-1) ? 0 : wrt_ptr + 1; //reset wrt_ptr if at end of fifo
+						mem[wr_ptr] <= din;
+						wr_ptr <= (wr_ptr == DEPTH-1) ? 0 : wr_ptr + 1; //reset wr_ptr if at end of fifo
 						if(empty) begin //read will not occur, need to increment cnt
 							cnt <= cnt + 1;
 							empty <= 0;

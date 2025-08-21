@@ -20,11 +20,12 @@ Implementation of classic RTL module with the addition of SystemVerilog Assertio
 - Ensure empty signal is asserted at the same clock fifo empties 
 - Ensure full signal is asserted on same clock that fifo fills
 - Ensure that count is not incremented on write (and not read) when full
+- Ensure that wr_ptr is not incremented on write (and not read) when full
 - Ensure that count is not decremented on read (and not write) when empty
+- Ensure that rd_ptr is not incremented on read (and not write) when empty
 - Ensure that count is not changed on simultaneous read and write (when not full or empty)
 - Ensure count is incremented on simultaneous read and write when empty (read will not occur)
 - Ensure count is decremented on simultaneous read and write when full (write will not occur)
-- No X propagation
 
 ## Testbench Strategy
 - Directed Tests
