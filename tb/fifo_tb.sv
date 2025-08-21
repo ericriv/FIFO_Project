@@ -14,7 +14,7 @@ module fifo_tb;
 	
 	fifo #(.DATA_WIDTH, .DEPTH) my_fifo(.clk, .rst_, .wr_en, .rd_en, .din, .dout, .full, .empty);
 	
-	bind fifo fifo_property #(.DATA_WIDTH, .DEPTH) my_fifo_bind
+	bind fifo fifo_sva #(.DATA_WIDTH, .DEPTH) my_fifo_bind
 	(.clk, .rst_, .wr_en, .rd_en, .din, .dout, .full, .empty);
 	
 	

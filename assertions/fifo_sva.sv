@@ -2,7 +2,7 @@
 `define wrt_ptr fifo_tb.my_fifo.wrt_ptr
 `define cnt fifo_tb.my_fifo.cnt
 
-module fifo_property #(
+module fifo_sva #(
     parameter DATA_WIDTH = 8,
     parameter DEPTH = 16
 ) (

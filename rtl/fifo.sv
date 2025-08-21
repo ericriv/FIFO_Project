@@ -16,8 +16,8 @@ module fifo #(
 
 	logic	[DATA_WIDTH-1:0]	mem		[0:DEPTH-1];
 	
-	logic	[ADDR_BITS:0]		rd_ptr;
-	logic	[ADDR_BITS:0]		wrt_ptr;
+	logic	[ADDR_BITS-1:0]		rd_ptr;
+	logic	[ADDR_BITS-1:0]		wrt_ptr;
 	logic 	[ADDR_BITS:0]		cnt;
 
 	always @(posedge clk or negedge rst_) begin
@@ -35,35 +35,44 @@ module fifo #(
 				2'b10: begin //write
 					if(!full) begin
 						mem[wrt_ptr] <= din;
+						wrt_ptr <= (wrt_ptr == DEPTH-1) ? 0 : wrt_ptr + 1; //reset wrt_ptr if at end of fifo
+						full <= (cnt == DEPTH-1);
 						cnt <= cnt + 1;
-						wrt_ptr <= (wrt_ptr == DEPTH) ? 0 : wrt_prt + 1; //reset wrt_prt if at end of fifo
-						if(cnt == DEPTH-1) begin
-							full <= 1;
-						end 
 					end //if !full
 				end //write
 			
 				2'b01: begin //read
 					if(!empty) begin
-						rd_ptr <= (rd_ptr == DEPTH) ? 0 : rd_ptr + 1; //reset rd_ptr if at end of fifo
+						dout <= mem[rd_ptr];
+						rd_ptr <= (rd_ptr == DEPTH-1) ? 0 : rd_ptr + 1; //reset rd_ptr if at end of fifo
+						empty <= (cnt == 1);
 						cnt <= cnt - 1;
-						if(cnt == 1) begin
-							empty <= 1;
-						end
 					end //if !empty
 				end //read
 			
 				2'b11 begin //read and write
-					mem[wrt_ptr] <= din;
-					wrt_ptr <= (wrt_ptr == DEPTH) ? 0 : wrt_prt + 1; //reset wrt_prt if at end of fifo
-					rd_ptr <= (rd_ptr == DEPTH) ? 0 : rd_ptr + 1; //reset rd_ptr if at end of fifo
-				end
+					if(!full) begin //write
+						mem[wrt_ptr] <= din;
+						wrt_ptr <= (wrt_ptr == DEPTH-1) ? 0 : wrt_ptr + 1; //reset wrt_ptr if at end of fifo
+						if(empty) begin //read will not occur, need to increment cnt
+							cnt <= cnt + 1;
+							empty <= 0;
+						end
+					end
+					
+					if(!empty) begin //read
+						dout <= mem[rd_ptr];
+						rd_ptr <= (rd_ptr == DEPTH-1) ? 0 : rd_ptr + 1; //reset rd_ptr if at end of fifo
+						if(full) begin //write will not occur, need to decrement cnt
+							cnt <= cnt - 1;
+							full <= 0;
+						end
+					end
+				end //read and write
 			
 				default: ; 
 			endcase
 		end //else
 	end //always
 	
-	assign dout = mem[rd_ptr];
-
 endmodule 

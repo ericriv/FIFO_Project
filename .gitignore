@@ -1,0 +1,46 @@
+# ----------------------------
+# Questa / ModelSim artifacts
+# ----------------------------
+work/
+vsim.wlf
+transcript
+*.wlf
+*.wlft
+*.ucdb
+
+# ----------------------------
+# Simulation logs & results
+# ----------------------------
+*.log
+sim/*.log
+*.out
+
+# ----------------------------
+# Compilation outputs
+# ----------------------------
+*.vo
+*.vho
+*.sdo
+*.ini
+*.mpf
+*.cr.mti
+*.dat
+*.db
+*.jou
+*.str
+
+# ----------------------------
+# Coverage / reports
+# ----------------------------
+*.cov
+*.coverage
+*.rpt
+
+# ----------------------------
+# OS / Editor junk
+# ----------------------------
+*.swp
+*.bak
+*.tmp
+.DS_Store
+Thumbs.db
