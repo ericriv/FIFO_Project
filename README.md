@@ -7,7 +7,6 @@ Implementation of classic RTL module with the addition of SystemVerilog Assertio
 ## DUT
 - FIFO with parameterizable depth/width
 - asynchronous reset
-- 
 - Ports: clk, rst, wr_en, rd_en, din, dout, full, empty
 
 ## Verification Objectives
@@ -36,7 +35,9 @@ Implementation of classic RTL module with the addition of SystemVerilog Assertio
     - empty
 	- neither
 	- full
-  
-- Randomized Tests
-  - Random push/pop sequences
-  - Stress test with long random streams
+
+- Scoreboard
+  - Reference model implemented using SystemVerilog queue
+  - On write: enqueue data into reference model
+  - On read: compare DUT output with expected data from reference model
+  - Flags mismatches in order, data corruption, or dropped entries
