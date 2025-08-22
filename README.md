@@ -37,6 +37,6 @@ Implementation of classic RTL module with the addition of SystemVerilog Assertio
 	- neither
 	- full
   
--Randomized Tests
+- Randomized Tests
   - Random push/pop sequences
   - Stress test with long random streams
