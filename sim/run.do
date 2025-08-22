@@ -3,10 +3,8 @@
 # Run from the sim/ directory
 # ================================
 
-# Create/clean work library
-if {[file exists work]} {
-  vdel -all
-}
+# Clean and recreate work directory
+vdel -all
 vlib work
 
 # Compile RTL, assertions, and testbench
@@ -14,12 +12,16 @@ vlog -sv ../rtl/fifo.sv
 vlog -sv ../assertions/fifo_sva.sv
 vlog -sv ../tb/fifo_tb.sv
 
-# Run simulation, log output to file
-vsim work.fifo_tb -l sim_output.log
+# Run simulation (with limited optimization for waveform viewing)
+vsim -voptargs=+acc work.fifo_tb 
 
-# Record all signals to wave
-log -r /*
-add wave -r /*
+# Record sim log
+transcript file sim_output.log
+
+# Plot waveform
+add wave -r fifo_tb/*
 
 # Run until completion
 run -all
+
+#quit -sim

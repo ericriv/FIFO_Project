@@ -32,6 +32,10 @@ Implementation of classic RTL module with the addition of SystemVerilog Assertio
   - Fill -> Drain
   - Write when full
   - Read when empty
+  - Simultaneous read and write when:
+    - empty
+	- neither
+	- full
   
 -Randomized Tests
   - Random push/pop sequences

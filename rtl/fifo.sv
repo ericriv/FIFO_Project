@@ -36,6 +36,7 @@ module fifo #(
 					if(!full) begin
 						mem[wr_ptr] <= din;
 						wr_ptr <= (wr_ptr == DEPTH-1) ? 0 : wr_ptr + 1; //reset wr_ptr if at end of fifo
+						empty <= 0;
 						full <= (cnt == DEPTH-1);
 						cnt <= cnt + 1;
 					end //if !full
@@ -45,6 +46,7 @@ module fifo #(
 					if(!empty) begin
 						dout <= mem[rd_ptr];
 						rd_ptr <= (rd_ptr == DEPTH-1) ? 0 : rd_ptr + 1; //reset rd_ptr if at end of fifo
+						full <= 0;
 						empty <= (cnt == 1);
 						cnt <= cnt - 1;
 					end //if !empty
