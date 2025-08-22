@@ -4,7 +4,9 @@
 # ================================
 
 # Create/clean work library
-vdel -all
+if {[file exists work]} {
+  vdel -all
+}
 vlib work
 
 # Compile RTL, assertions, and testbench

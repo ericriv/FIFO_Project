@@ -50,7 +50,7 @@ module fifo #(
 					end //if !empty
 				end //read
 			
-				2'b11 begin //read and write
+				2'b11: begin //read and write
 					if(!full) begin //write
 						mem[wr_ptr] <= din;
 						wr_ptr <= (wr_ptr == DEPTH-1) ? 0 : wr_ptr + 1; //reset wr_ptr if at end of fifo
